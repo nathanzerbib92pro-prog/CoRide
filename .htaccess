@@ -1,0 +1,6 @@
+# Utile seulement si la racine web pointe sur le dossier du projet au lieu de /public.
+# Sur AlwaysData, préférez régler la racine du site sur .../public (voir docs/deploiement-alwaysdata.md).
+Options -Indexes
+RewriteEngine On
+RewriteRule ^(app|config|database|routes|bin|docs|\.git)(/|$) - [F,L]
+RewriteRule ^(.*)$ public/$1 [L]

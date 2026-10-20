@@ -1,0 +1,62 @@
+digraph MLD {
+  graph [rankdir=LR, bgcolor="#F6F7F4", pad=0.4, nodesep=0.6, ranksep=1.2, fontname="Overpass", label="MLD — tables MySQL  (PK souligné, # clé étrangère)", labelloc=t, fontsize=20, fontcolor="#1C2B33"];
+  node [shape=plaintext, fontname="Overpass", fontsize=12, fontcolor="#1C2B33"];
+  edge [color="#0E7458", penwidth=1.8, arrowhead=crow, arrowtail=tee, dir=both, fontname="Overpass", fontsize=11];
+
+  utilisateurs [label=<
+    <TABLE BORDER="2" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5" COLOR="#1C2B33" BGCOLOR="#FFFFFF">
+      <TR><TD BGCOLOR="#1C2B33" COLSPAN="2"><FONT COLOR="#FFFFFF" FACE="Overpass Bold">utilisateurs</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><U>id</U></TD><TD ALIGN="LEFT" PORT="id"><FONT COLOR="#56636A">INT UNSIGNED AI</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT">nom</TD><TD ALIGN="LEFT"><FONT COLOR="#56636A">VARCHAR(100)</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT">email</TD><TD ALIGN="LEFT"><FONT COLOR="#56636A">VARCHAR(190) UNIQUE</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT">password</TD><TD ALIGN="LEFT"><FONT COLOR="#56636A">VARCHAR(255) hash</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT">role</TD><TD ALIGN="LEFT"><FONT COLOR="#56636A">ENUM(user, admin)</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT">actif</TD><TD ALIGN="LEFT"><FONT COLOR="#56636A">TINYINT(1)</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT">created_at</TD><TD ALIGN="LEFT"><FONT COLOR="#56636A">DATETIME</FONT></TD></TR>
+    </TABLE>>];
+
+  trajets [label=<
+    <TABLE BORDER="2" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5" COLOR="#1C2B33" BGCOLOR="#FFFFFF">
+      <TR><TD BGCOLOR="#1C2B33" COLSPAN="2"><FONT COLOR="#FFFFFF" FACE="Overpass Bold">trajets</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><U>id</U></TD><TD ALIGN="LEFT" PORT="id"><FONT COLOR="#56636A">INT UNSIGNED AI</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT">origine</TD><TD ALIGN="LEFT"><FONT COLOR="#56636A">VARCHAR(120)</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT">destination</TD><TD ALIGN="LEFT"><FONT COLOR="#56636A">VARCHAR(120)</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT">date_heure</TD><TD ALIGN="LEFT"><FONT COLOR="#56636A">DATETIME</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT">prix</TD><TD ALIGN="LEFT"><FONT COLOR="#56636A">DECIMAL(6,2) NULL</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT">places_totales</TD><TD ALIGN="LEFT"><FONT COLOR="#56636A">TINYINT 1..8</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT">places_restantes</TD><TD ALIGN="LEFT"><FONT COLOR="#56636A">TINYINT UNSIGNED</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT">statut</TD><TD ALIGN="LEFT"><FONT COLOR="#56636A">ENUM(Ouvert, Complet, Terminé)</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT" PORT="cond"><FONT COLOR="#0A5A44">#id_conducteur</FONT></TD><TD ALIGN="LEFT"><FONT COLOR="#56636A">→ utilisateurs.id</FONT></TD></TR>
+    </TABLE>>];
+
+  reservations [label=<
+    <TABLE BORDER="2" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5" COLOR="#1C2B33" BGCOLOR="#FFFFFF">
+      <TR><TD BGCOLOR="#1C2B33" COLSPAN="2"><FONT COLOR="#FFFFFF" FACE="Overpass Bold">reservations</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><U>id</U></TD><TD ALIGN="LEFT"><FONT COLOR="#56636A">INT UNSIGNED AI</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT">statut</TD><TD ALIGN="LEFT"><FONT COLOR="#56636A">ENUM(En attente, Confirmée, Refusée)</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT">date_reservation</TD><TD ALIGN="LEFT"><FONT COLOR="#56636A">DATETIME</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT" PORT="t"><FONT COLOR="#0A5A44">#id_trajet</FONT></TD><TD ALIGN="LEFT"><FONT COLOR="#56636A">→ trajets.id</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT" PORT="p"><FONT COLOR="#0A5A44">#id_passager</FONT></TD><TD ALIGN="LEFT"><FONT COLOR="#56636A">→ utilisateurs.id</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT" COLSPAN="2" BGCOLOR="#FFF8DB">UNIQUE (id_trajet, id_passager)</TD></TR>
+    </TABLE>>];
+
+  avis [label=<
+    <TABLE BORDER="2" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5" COLOR="#1C2B33" BGCOLOR="#FFFFFF">
+      <TR><TD BGCOLOR="#1C2B33" COLSPAN="2"><FONT COLOR="#FFFFFF" FACE="Overpass Bold">avis</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><U>id</U></TD><TD ALIGN="LEFT"><FONT COLOR="#56636A">INT UNSIGNED AI</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT">note</TD><TD ALIGN="LEFT"><FONT COLOR="#56636A">TINYINT CHECK 1..5</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT">commentaire</TD><TD ALIGN="LEFT"><FONT COLOR="#56636A">VARCHAR(1000) NULL</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT">date</TD><TD ALIGN="LEFT"><FONT COLOR="#56636A">DATETIME</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT" PORT="t"><FONT COLOR="#0A5A44">#id_trajet</FONT></TD><TD ALIGN="LEFT"><FONT COLOR="#56636A">→ trajets.id</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT" PORT="a"><FONT COLOR="#0A5A44">#id_auteur</FONT></TD><TD ALIGN="LEFT"><FONT COLOR="#56636A">→ utilisateurs.id</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT" PORT="c"><FONT COLOR="#0A5A44">#id_cible</FONT></TD><TD ALIGN="LEFT"><FONT COLOR="#56636A">→ utilisateurs.id</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT" COLSPAN="2" BGCOLOR="#FFF8DB">UNIQUE (id_trajet, id_auteur, id_cible)</TD></TR>
+    </TABLE>>];
+
+  utilisateurs:id:e -> trajets:cond:w;
+  utilisateurs:id:e -> reservations:p:w;
+  trajets:id:e -> reservations:t:w;
+  trajets:id:e -> avis:t:w;
+  utilisateurs:id:e -> avis:a:w;
+  utilisateurs:id:e -> avis:c:w;
+}

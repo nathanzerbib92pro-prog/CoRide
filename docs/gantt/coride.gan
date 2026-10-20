@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="CoRide" company="" webLink="" view-date="2026-10-05" view-index="0" gantt-divider-location="420" resource-divider-location="300" version="3.2.3240" locale="fr_FR">
+<description><![CDATA[Projet PHP/MySQL MVC — équipe de 3. Lancement le 09/10/2026, rendu le 23/10/2026.]]></description>
+<view zooming-state="default:3" id="gantt-chart">
+<field id="tpd3" name="Nom" width="300" order="0"/>
+<field id="tpd4" name="Date de début" width="80" order="1"/>
+<field id="tpd5" name="Date de fin" width="80" order="2"/>
+</view>
+<view id="resource-table">
+<field id="0" name="Nom" width="210" order="0"/>
+<field id="1" name="Rôle par défaut" width="86" order="1"/>
+</view>
+<calendars><day-types><day-type id="0"/><day-type id="1"/><default-week id="1" name="default" sun="1" mon="0" tue="0" wed="0" thu="0" fri="0" sat="1"/><only-show-weekends value="false"/><overriden-day-types/><days/></day-types></calendars>
+<tasks empty-milestones="true">
+<taskproperties><taskproperty id="tpd0" name="type" type="default" valuetype="icon"/><taskproperty id="tpd1" name="priority" type="default" valuetype="icon"/><taskproperty id="tpd2" name="info" type="default" valuetype="icon"/><taskproperty id="tpd3" name="name" type="default" valuetype="text"/><taskproperty id="tpd4" name="begindate" type="default" valuetype="date"/><taskproperty id="tpd5" name="enddate" type="default" valuetype="date"/><taskproperty id="tpd6" name="duration" type="default" valuetype="int"/><taskproperty id="tpd7" name="completion" type="default" valuetype="int"/><taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/><taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/></taskproperties>
+<task id="0" name="Séance de lancement (09/10)" color="#1C2B33" meeting="false" start="2026-10-09" duration="1" complete="0" expand="true">
+<task id="1" name="Lecture du sujet, répartition A/B/C" color="#56636A" meeting="false" start="2026-10-09" duration="1" complete="0" expand="true">
+</task>
+<task id="2" name="Arborescence, MCD/MLD, diagramme de classes" color="#56636A" meeting="false" start="2026-10-09" duration="1" complete="0" expand="true">
+</task>
+<task id="3" name="Socle : BDD, PDO, routeur, authentification" color="#56636A" meeting="false" start="2026-10-09" duration="1" complete="0" expand="true">
+</task>
+<task id="4" name="Gantt + maquettes Figma" color="#56636A" meeting="false" start="2026-10-09" duration="1" complete="0" expand="true">
+</task>
+<task id="5" name="Présentation au professeur" color="#56636A" meeting="false" start="2026-10-09" duration="1" complete="0" expand="true">
+</task>
+<task id="6" name="A : démarrage CRUD trajets" color="#0E7458" meeting="false" start="2026-10-09" duration="1" complete="0" expand="true">
+</task>
+<task id="7" name="B : démarrage liste filtrée" color="#2F6FA8" meeting="false" start="2026-10-09" duration="1" complete="0" expand="true">
+</task>
+<task id="8" name="C : table avis + squelette contrôleur, bouchon noteMoyenne()" color="#C2681C" meeting="false" start="2026-10-09" duration="1" complete="0" expand="true">
+</task>
+</task>
+<task id="9" name="Semaine 1 — modules individuels" color="#1C2B33" meeting="false" start="2026-10-12" duration="1" complete="0" expand="true">
+<task id="10" name="A : publier un trajet (formulaire + validation)" color="#0E7458" meeting="false" start="2026-10-12" duration="2" complete="0" expand="true">
+<depend id="11" type="2" difference="0" hardness="Strong"/>
+</task>
+<task id="11" name="A : mes trajets + statuts" color="#0E7458" meeting="false" start="2026-10-14" duration="1" complete="0" expand="true">
+<depend id="12" type="2" difference="0" hardness="Strong"/>
+</task>
+<task id="12" name="A : demandes reçues, accepter / refuser, reserverPlace()" color="#0E7458" meeting="false" start="2026-10-15" duration="2" complete="0" expand="true">
+</task>
+<task id="13" name="B : recherche filtrée (ville, date)" color="#2F6FA8" meeting="false" start="2026-10-12" duration="2" complete="0" expand="true">
+<depend id="14" type="2" difference="0" hardness="Strong"/>
+</task>
+<task id="14" name="B : réserver une place + règles métier" color="#2F6FA8" meeting="false" start="2026-10-14" duration="2" complete="0" expand="true">
+<depend id="15" type="2" difference="0" hardness="Strong"/>
+</task>
+<task id="15" name="B : mes réservations" color="#2F6FA8" meeting="false" start="2026-10-16" duration="1" complete="0" expand="true">
+</task>
+<task id="16" name="C : clôture de trajet (auto + manuelle)" color="#C2681C" meeting="false" start="2026-10-12" duration="2" complete="0" expand="true">
+<depend id="17" type="2" difference="0" hardness="Strong"/>
+</task>
+<task id="17" name="C : formulaire de notation + règles métier" color="#C2681C" meeting="false" start="2026-10-14" duration="2" complete="0" expand="true">
+<depend id="18" type="2" difference="0" hardness="Strong"/>
+</task>
+<task id="18" name="C : Avis::noteMoyenne() réelle" color="#C2681C" meeting="false" start="2026-10-16" duration="1" complete="0" expand="true">
+</task>
+<task id="19" name="Point d'équipe : 1re fusion sur main" color="#56636A" meeting="false" start="2026-10-16" duration="1" complete="0" expand="true">
+</task>
+</task>
+<task id="20" name="Semaine 2 — intégration et finitions" color="#1C2B33" meeting="false" start="2026-10-19" duration="1" complete="0" expand="true">
+<task id="21" name="A : statistiques conducteur" color="#0E7458" meeting="false" start="2026-10-19" duration="2" complete="0" expand="true">
+<depend id="24" type="2" difference="0" hardness="Strong"/>
+</task>
+<task id="22" name="B : profil public (note, trajets réalisés)" color="#2F6FA8" meeting="false" start="2026-10-19" duration="2" complete="0" expand="true">
+<depend id="24" type="2" difference="0" hardness="Strong"/>
+</task>
+<task id="23" name="C : espace admin (modération, comptes, stats globales)" color="#C2681C" meeting="false" start="2026-10-19" duration="3" complete="0" expand="true">
+</task>
+<task id="24" name="Intégration des 3 modules + fusion Git" color="#56636A" meeting="false" start="2026-10-21" duration="2" complete="0" expand="true">
+<depend id="26" type="2" difference="0" hardness="Strong"/>
+</task>
+<task id="25" name="Revue croisée sécurité (requêtes préparées, accès, XSS)" color="#56636A" meeting="false" start="2026-10-21" duration="1" complete="0" expand="true">
+</task>
+<task id="26" name="Déploiement AlwaysData + tests en ligne" color="#56636A" meeting="false" start="2026-10-22" duration="1" complete="0" expand="true">
+<depend id="28" type="2" difference="0" hardness="Strong"/>
+</task>
+<task id="27" name="Documentation (MLD, classes, logique places/note) + script SQL final" color="#56636A" meeting="false" start="2026-10-22" duration="2" complete="0" expand="true">
+</task>
+<task id="28" name="Rendu du projet" color="#56636A" meeting="true" start="2026-10-23" duration="0" complete="0" expand="true">
+</task>
+</task>
+</tasks>
+<resources><resource id="0" name="Étudiant A — Conducteur" function="Default:0" contacts="" phone=""/><resource id="1" name="Étudiant B — Passager" function="Default:0" contacts="" phone=""/><resource id="2" name="Étudiant C — Avis &amp; Admin" function="Default:0" contacts="" phone=""/><resource id="3" name="Toute l'équipe" function="Default:0" contacts="" phone=""/></resources>
+<allocations><allocation task-id="1" resource-id="3" function="Default:0" responsible="true" load="100.0"/><allocation task-id="2" resource-id="3" function="Default:0" responsible="true" load="100.0"/><allocation task-id="3" resource-id="3" function="Default:0" responsible="true" load="100.0"/><allocation task-id="4" resource-id="3" function="Default:0" responsible="true" load="100.0"/><allocation task-id="5" resource-id="3" function="Default:0" responsible="true" load="100.0"/><allocation task-id="6" resource-id="0" function="Default:0" responsible="true" load="100.0"/><allocation task-id="7" resource-id="1" function="Default:0" responsible="true" load="100.0"/><allocation task-id="8" resource-id="2" function="Default:0" responsible="true" load="100.0"/><allocation task-id="10" resource-id="0" function="Default:0" responsible="true" load="100.0"/><allocation task-id="11" resource-id="0" function="Default:0" responsible="true" load="100.0"/><allocation task-id="12" resource-id="0" function="Default:0" responsible="true" load="100.0"/><allocation task-id="13" resource-id="1" function="Default:0" responsible="true" load="100.0"/><allocation task-id="14" resource-id="1" function="Default:0" responsible="true" load="100.0"/><allocation task-id="15" resource-id="1" function="Default:0" responsible="true" load="100.0"/><allocation task-id="16" resource-id="2" function="Default:0" responsible="true" load="100.0"/><allocation task-id="17" resource-id="2" function="Default:0" responsible="true" load="100.0"/><allocation task-id="18" resource-id="2" function="Default:0" responsible="true" load="100.0"/><allocation task-id="19" resource-id="3" function="Default:0" responsible="true" load="100.0"/><allocation task-id="21" resource-id="0" function="Default:0" responsible="true" load="100.0"/><allocation task-id="22" resource-id="1" function="Default:0" responsible="true" load="100.0"/><allocation task-id="23" resource-id="2" function="Default:0" responsible="true" load="100.0"/><allocation task-id="24" resource-id="3" function="Default:0" responsible="true" load="100.0"/><allocation task-id="25" resource-id="3" function="Default:0" responsible="true" load="100.0"/><allocation task-id="26" resource-id="3" function="Default:0" responsible="true" load="100.0"/><allocation task-id="27" resource-id="3" function="Default:0" responsible="true" load="100.0"/><allocation task-id="28" resource-id="3" function="Default:0" responsible="true" load="100.0"/></allocations>
+<vacations/>
+<previous/>
+<roles roleset-name="Default"/>
+</project>

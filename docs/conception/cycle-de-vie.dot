@@ -1,0 +1,27 @@
+digraph Cycle {
+  graph [rankdir=LR, bgcolor="#F6F7F4", pad=0.4, nodesep=0.5, ranksep=0.9, fontname="Overpass", label="Cycles de vie — statuts", labelloc=t, fontsize=20, fontcolor="#1C2B33"];
+  node [fontname="Overpass Bold", fontsize=13, shape=box, style="rounded,filled", penwidth=2];
+  edge [fontname="Overpass", fontsize=11, color="#1C2B33", penwidth=1.5];
+
+  subgraph cluster_t { label="Trajet"; fontsize=15; color="#DCE2DE"; style=rounded;
+    s1 [shape=circle, label="", width=0.25, fillcolor="#1C2B33", color="#1C2B33"];
+    Ouvert [fillcolor="#E4F2EC", color="#0E7458"];
+    Complet [fillcolor="#F3C318", color="#F3C318"];
+    Termine [label="Terminé", fillcolor="#FFFFFF", color="#56636A"];
+    s1 -> Ouvert [label="publication"];
+    Ouvert -> Complet [label="places_restantes = 0"];
+    Ouvert -> Termine [label="date/heure atteinte\n(auto ou manuel)"];
+    Complet -> Termine [label="date/heure atteinte"];
+    Termine -> notation [style=dashed, label="débloque"];
+    notation [label="Notation\nmutuelle", shape=note, style=filled, fillcolor="#FFF8DB", color="#1C2B33", fontname="Overpass"];
+  }
+  subgraph cluster_r { label="Réservation"; fontsize=15; color="#DCE2DE"; style=rounded;
+    s2 [shape=circle, label="", width=0.25, fillcolor="#1C2B33", color="#1C2B33"];
+    Attente [label="En attente", fillcolor="#FFF8DB", color="#F3C318"];
+    Confirmee [label="Confirmée", fillcolor="#E4F2EC", color="#0E7458"];
+    Refusee [label="Refusée", fillcolor="#F8E6E2", color="#B8402B"];
+    s2 -> Attente [label="demande du passager"];
+    Attente -> Confirmee [label="acceptée par le conducteur\n(place décrémentée)"];
+    Attente -> Refusee [label="refusée"];
+  }
+}

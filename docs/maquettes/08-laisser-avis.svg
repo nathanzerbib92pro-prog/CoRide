@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="1024" viewBox="0 0 1440 1024">
+<title>08 — Laisser un avis (C)</title>
+<rect width="1440" height="1024" fill="#F6F7F4"/>
+<rect x="0" y="0" width="1440" height="72" rx="0" fill="#FFFFFF"/>
+<line x1="0" y1="72" x2="1440" y2="72" stroke="#DCE2DE" stroke-width="1"/>
+<rect x="160" y="20" width="48" height="32" rx="4" fill="#0E7458" stroke="#0E7458" stroke-width="2"/>
+<text x="184" y="42" font-family="Overpass, sans-serif" font-size="16" font-weight="800" fill="#FFFFFF" text-anchor="middle">Co</text>
+<rect x="208" y="20" width="58" height="32" rx="4" fill="none" stroke="#0E7458" stroke-width="2"/>
+<text x="237" y="42" font-family="Overpass, sans-serif" font-size="16" font-weight="800" fill="#0E7458" text-anchor="middle">Ride</text>
+<text x="609.4000000000001" y="42" font-family="Overpass, sans-serif" font-size="15" font-weight="600" fill="#1C2B33" text-anchor="start">Trouver un trajet</text>
+<text x="783.6000000000001" y="42" font-family="Overpass, sans-serif" font-size="15" font-weight="600" fill="#1C2B33" text-anchor="start">Publier</text>
+<text x="871.8000000000002" y="42" font-family="Overpass, sans-serif" font-size="15" font-weight="600" fill="#1C2B33" text-anchor="start">Mes trajets</text>
+<text x="994.4000000000002" y="42" font-family="Overpass, sans-serif" font-size="15" font-weight="600" fill="#1C2B33" text-anchor="start">Mes réservations</text>
+<rect x="994.4000000000002" y="52" width="137.6" height="3" rx="0" fill="#F3C318"/>
+<circle cx="1200" cy="36" r="18" fill="#1C2B33" stroke="#1C2B33" stroke-width="0"/>
+<text x="1200" y="41" font-family="Overpass, sans-serif" font-size="13" font-weight="800" fill="#FFFFFF" text-anchor="middle">IH</text>
+<text x="1228" y="42" font-family="Overpass, sans-serif" font-size="14" font-weight="600" fill="#56636A" text-anchor="start">Se déconnecter</text>
+<text x="160" y="160" font-family="Overpass, sans-serif" font-size="44" font-weight="800" fill="#1C2B33" text-anchor="start">Noter votre trajet</text>
+<rect x="160" y="190" width="560" height="130" rx="6" fill="#FFFFFF" stroke="#DCE2DE" stroke-width="1"/>
+<line x1="202" y1="234" x2="202" y2="276" stroke="#1C2B33" stroke-width="3" stroke-dasharray="6 5"/>
+<circle cx="202" cy="226" r="8" fill="#FFFFFF" stroke="#1C2B33" stroke-width="3"/>
+<circle cx="202" cy="282" r="8" fill="#0E7458" stroke="#0E7458" stroke-width="3"/>
+<text x="224" y="233" font-family="Overpass, sans-serif" font-size="19" font-weight="800" fill="#1C2B33" text-anchor="start">Paris</text>
+<text x="296.9" y="233" font-family="Overpass, sans-serif" font-size="15" font-weight="600" fill="#56636A" text-anchor="start">ven. 2 oct. à 18h00</text>
+<text x="224" y="289" font-family="Overpass, sans-serif" font-size="19" font-weight="800" fill="#1C2B33" text-anchor="start">Lille</text>
+<rect x="600" y="210" width="83" height="28" rx="14" fill="#F6F7F4" stroke="#DCE2DE" stroke-width="2"/>
+<text x="641.5" y="229" font-family="Overpass, sans-serif" font-size="13" font-weight="800" fill="#56636A" text-anchor="middle">Terminé</text>
+<text x="160" y="380" font-family="Overpass, sans-serif" font-size="18" font-weight="800" fill="#1C2B33" text-anchor="start">Votre note pour Lucas Martin (conducteur)</text>
+<rect x="160" y="400" width="58" height="58" rx="6" fill="#F3C318" stroke="#F3C318" stroke-width="2"/>
+<text x="189" y="440" font-family="Overpass, sans-serif" font-size="22" font-weight="800" fill="#1C2B33" text-anchor="middle">1</text>
+<rect x="230" y="400" width="58" height="58" rx="6" fill="#F3C318" stroke="#F3C318" stroke-width="2"/>
+<text x="259" y="440" font-family="Overpass, sans-serif" font-size="22" font-weight="800" fill="#1C2B33" text-anchor="middle">2</text>
+<rect x="300" y="400" width="58" height="58" rx="6" fill="#F3C318" stroke="#F3C318" stroke-width="2"/>
+<text x="329" y="440" font-family="Overpass, sans-serif" font-size="22" font-weight="800" fill="#1C2B33" text-anchor="middle">3</text>
+<rect x="370" y="400" width="58" height="58" rx="6" fill="#F3C318" stroke="#F3C318" stroke-width="2"/>
+<text x="399" y="440" font-family="Overpass, sans-serif" font-size="22" font-weight="800" fill="#1C2B33" text-anchor="middle">4</text>
+<rect x="440" y="400" width="58" height="58" rx="6" fill="#FFFFFF" stroke="#DCE2DE" stroke-width="2"/>
+<text x="469" y="440" font-family="Overpass, sans-serif" font-size="22" font-weight="800" fill="#1C2B33" text-anchor="middle">5</text>
+<text x="520" y="438" font-family="Overpass, sans-serif" font-size="16" font-weight="600" fill="#56636A" text-anchor="start">4 sur 5</text>
+<text x="160" y="510" font-family="Overpass, sans-serif" font-size="15" font-weight="600" fill="#1C2B33" text-anchor="start">Commentaire (facultatif, 1000 caractères max.)</text>
+<rect x="160" y="522" width="560" height="140" rx="6" fill="#FFFFFF" stroke="#DCE2DE" stroke-width="2"/>
+<text x="176" y="556" font-family="Overpass, sans-serif" font-size="16" font-weight="400" fill="#1C2B33" text-anchor="start">Bon trajet, un peu de retard au départ.</text>
+<rect x="160" y="690" width="200" height="44" rx="6" fill="#0E7458" stroke="#0E7458" stroke-width="2"/>
+<text x="260.0" y="718" font-family="Overpass, sans-serif" font-size="16" font-weight="800" fill="#FFFFFF" text-anchor="middle">Publier mon avis</text>
+<rect x="800" y="190" width="480" height="200" rx="6" fill="#FFFFFF" stroke="#B8402B" stroke-width="2" stroke-dasharray="6 5"/>
+<text x="824" y="230" font-family="Overpass, sans-serif" font-size="16" font-weight="800" fill="#B8402B" text-anchor="start">Cas bloqués (message à afficher)</text>
+<text x="824" y="268" font-family="Overpass, sans-serif" font-size="15" font-weight="400" fill="#1C2B33" text-anchor="start">• Trajet pas encore terminé</text>
+<text x="824" y="296" font-family="Overpass, sans-serif" font-size="15" font-weight="400" fill="#1C2B33" text-anchor="start">• Vous n&#x27;étiez pas passager confirmé</text>
+<text x="824" y="324" font-family="Overpass, sans-serif" font-size="15" font-weight="400" fill="#1C2B33" text-anchor="start">• Vous avez déjà noté cette personne</text>
+<text x="824" y="352" font-family="Overpass, sans-serif" font-size="15" font-weight="400" fill="#1C2B33" text-anchor="start">• Note hors de 1 à 5</text>
+<text x="800" y="440" font-family="Overpass, sans-serif" font-size="15" font-weight="400" fill="#56636A" text-anchor="start">Le conducteur voit le même écran avec un bloc par passager confirmé.</text>
+</svg>

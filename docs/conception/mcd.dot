@@ -1,0 +1,48 @@
+graph MCD {
+  graph [rankdir=LR, splines=true, nodesep=0.7, ranksep=1.1, bgcolor="#F6F7F4", pad=0.4, fontname="Overpass", label="MCD — CoRide (Merise)", labelloc=t, fontsize=20, fontcolor="#1C2B33"];
+  node [fontname="Overpass", fontsize=12, fontcolor="#1C2B33"];
+  edge [fontname="Overpass Bold", fontsize=12, color="#1C2B33", penwidth=1.6, fontcolor="#0A5A44"];
+
+  UTILISATEUR [shape=plaintext, label=<
+    <TABLE BORDER="2" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5" COLOR="#1C2B33" BGCOLOR="#FFFFFF">
+      <TR><TD BGCOLOR="#0E7458"><FONT COLOR="#FFFFFF" FACE="Overpass Bold">UTILISATEUR</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><U>id_utilisateur</U></TD></TR>
+      <TR><TD ALIGN="LEFT">nom</TD></TR><TR><TD ALIGN="LEFT">email</TD></TR>
+      <TR><TD ALIGN="LEFT">password</TD></TR><TR><TD ALIGN="LEFT">role</TD></TR><TR><TD ALIGN="LEFT">actif</TD></TR>
+    </TABLE>>];
+
+  TRAJET [shape=plaintext, label=<
+    <TABLE BORDER="2" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5" COLOR="#1C2B33" BGCOLOR="#FFFFFF">
+      <TR><TD BGCOLOR="#0E7458"><FONT COLOR="#FFFFFF" FACE="Overpass Bold">TRAJET</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><U>id_trajet</U></TD></TR>
+      <TR><TD ALIGN="LEFT">origine</TD></TR><TR><TD ALIGN="LEFT">destination</TD></TR>
+      <TR><TD ALIGN="LEFT">date_heure</TD></TR><TR><TD ALIGN="LEFT">prix</TD></TR>
+      <TR><TD ALIGN="LEFT">places_totales</TD></TR><TR><TD ALIGN="LEFT">places_restantes</TD></TR>
+      <TR><TD ALIGN="LEFT">statut</TD></TR>
+    </TABLE>>];
+
+  AVIS [shape=plaintext, label=<
+    <TABLE BORDER="2" CELLBORDER="0" CELLSPACING="0" CELLPADDING="5" COLOR="#1C2B33" BGCOLOR="#FFFFFF">
+      <TR><TD BGCOLOR="#0E7458"><FONT COLOR="#FFFFFF" FACE="Overpass Bold">AVIS</FONT></TD></TR>
+      <TR><TD ALIGN="LEFT"><U>id_avis</U></TD></TR>
+      <TR><TD ALIGN="LEFT">note</TD></TR><TR><TD ALIGN="LEFT">commentaire</TD></TR><TR><TD ALIGN="LEFT">date</TD></TR>
+    </TABLE>>];
+
+  node [shape=ellipse, style=filled, fillcolor="#FFF8DB", color="#1C2B33", penwidth=1.6];
+  PUBLIER   [label="PUBLIER\n(conduire)"];
+  RESERVER  [label=<<B>RÉSERVER</B><BR/>statut<BR/>date_reservation>];
+  ECRIRE    [label="ÉCRIRE"];
+  RECEVOIR  [label="RECEVOIR"];
+  CONCERNER [label="CONCERNER"];
+
+  UTILISATEUR -- PUBLIER   [taillabel="0,n", labeldistance=2];
+  PUBLIER -- TRAJET        [headlabel="1,1", labeldistance=2];
+  UTILISATEUR -- RESERVER  [taillabel="0,n", labeldistance=2];
+  RESERVER -- TRAJET       [headlabel="0,n", labeldistance=2];
+  UTILISATEUR -- ECRIRE    [taillabel="0,n", labeldistance=2];
+  ECRIRE -- AVIS           [headlabel="1,1", labeldistance=2];
+  UTILISATEUR -- RECEVOIR  [taillabel="0,n", labeldistance=2];
+  RECEVOIR -- AVIS         [headlabel="1,1", labeldistance=2];
+  TRAJET -- CONCERNER      [taillabel="0,n", labeldistance=2];
+  CONCERNER -- AVIS        [headlabel="1,1", labeldistance=2];
+}

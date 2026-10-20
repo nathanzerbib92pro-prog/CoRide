@@ -1,0 +1,66 @@
+digraph Classes {
+  graph [rankdir=BT, bgcolor="#F6F7F4", pad=0.4, nodesep=0.45, ranksep=0.8, fontname="Overpass", label="Diagramme de classes — CoRide", labelloc=t, fontsize=20, fontcolor="#1C2B33"];
+  node [shape=plaintext, fontname="Overpass", fontsize=11, fontcolor="#1C2B33"];
+  edge [fontname="Overpass", fontsize=10, color="#1C2B33"];
+
+  Model [label=<<TABLE BORDER="2" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4" COLOR="#1C2B33" BGCOLOR="#FFFFFF">
+    <TR><TD BGCOLOR="#DCE2DE"><I>«abstract»</I><BR/><B>Model</B></TD></TR>
+    <TR><TD ALIGN="LEFT"># db() : PDO  <I>{static}</I></TD></TR></TABLE>>];
+
+  Database [label=<<TABLE BORDER="2" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4" COLOR="#1C2B33" BGCOLOR="#FFFFFF">
+    <TR><TD BGCOLOR="#DCE2DE"><I>«singleton»</I><BR/><B>Database</B></TD></TR>
+    <TR><TD ALIGN="LEFT">- pdo : ?PDO <I>{static}</I></TD></TR>
+    <TR><TD ALIGN="LEFT" BGCOLOR="#F6F7F4">+ configure(config) <I>{static}</I><BR ALIGN="LEFT"/>+ get() : PDO <I>{static}</I><BR ALIGN="LEFT"/></TD></TR></TABLE>>];
+
+  Utilisateur [label=<<TABLE BORDER="2" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4" COLOR="#1C2B33" BGCOLOR="#FFFFFF">
+    <TR><TD BGCOLOR="#1C2B33"><FONT COLOR="#FFFFFF"><B>Utilisateur</B>  (socle)</FONT></TD></TR>
+    <TR><TD ALIGN="LEFT">- id : int<BR ALIGN="LEFT"/>- nom : string<BR ALIGN="LEFT"/>- email : string<BR ALIGN="LEFT"/>- password : string<BR ALIGN="LEFT"/>- role : string<BR ALIGN="LEFT"/>- actif : bool<BR ALIGN="LEFT"/></TD></TR>
+    <TR><TD ALIGN="LEFT" BGCOLOR="#F6F7F4">+ findById(id) : ?Utilisateur <I>{static}</I><BR ALIGN="LEFT"/>+ findByEmail(email) : ?Utilisateur <I>{static}</I><BR ALIGN="LEFT"/>+ create(nom, email, mdp) : Utilisateur <I>{static}</I><BR ALIGN="LEFT"/>+ verifyPassword(mdp) : bool<BR ALIGN="LEFT"/>+ isAdmin() : bool<BR ALIGN="LEFT"/></TD></TR></TABLE>>];
+
+  Trajet [label=<<TABLE BORDER="2" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4" COLOR="#1C2B33" BGCOLOR="#FFFFFF">
+    <TR><TD BGCOLOR="#0E7458"><FONT COLOR="#FFFFFF"><B>Trajet</B>  (Étudiant A)</FONT></TD></TR>
+    <TR><TD ALIGN="LEFT">- id : int<BR ALIGN="LEFT"/>- origine : string<BR ALIGN="LEFT"/>- destination : string<BR ALIGN="LEFT"/>- dateHeure : string<BR ALIGN="LEFT"/>- prix : ?float<BR ALIGN="LEFT"/>- placesTotales : int<BR ALIGN="LEFT"/>- placesRestantes : int<BR ALIGN="LEFT"/>- statut : string<BR ALIGN="LEFT"/>- idConducteur : int<BR ALIGN="LEFT"/></TD></TR>
+    <TR><TD ALIGN="LEFT" BGCOLOR="#F6F7F4">+ STATUT_OUVERT / COMPLET / TERMINE<BR ALIGN="LEFT"/>+ reserverPlace(idPassager) : bool<BR ALIGN="LEFT"/></TD></TR></TABLE>>];
+
+  Reservation [label=<<TABLE BORDER="2" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4" COLOR="#1C2B33" BGCOLOR="#FFFFFF">
+    <TR><TD BGCOLOR="#0E7458"><FONT COLOR="#FFFFFF"><B>Reservation</B>  (Étudiant B)</FONT></TD></TR>
+    <TR><TD ALIGN="LEFT">- id : int<BR ALIGN="LEFT"/>- statut : string<BR ALIGN="LEFT"/>- dateReservation : string<BR ALIGN="LEFT"/>- idTrajet : int<BR ALIGN="LEFT"/>- idPassager : int<BR ALIGN="LEFT"/></TD></TR>
+    <TR><TD ALIGN="LEFT" BGCOLOR="#F6F7F4">+ STATUT_EN_ATTENTE / CONFIRMEE / REFUSEE<BR ALIGN="LEFT"/></TD></TR></TABLE>>];
+
+  Avis [label=<<TABLE BORDER="2" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4" COLOR="#1C2B33" BGCOLOR="#FFFFFF">
+    <TR><TD BGCOLOR="#0E7458"><FONT COLOR="#FFFFFF"><B>Avis</B>  (Étudiant C)</FONT></TD></TR>
+    <TR><TD ALIGN="LEFT">- id : int<BR ALIGN="LEFT"/>- note : int (1..5)<BR ALIGN="LEFT"/>- commentaire : ?string<BR ALIGN="LEFT"/>- date : string<BR ALIGN="LEFT"/>- idTrajet : int<BR ALIGN="LEFT"/>- idAuteur : int<BR ALIGN="LEFT"/>- idCible : int<BR ALIGN="LEFT"/></TD></TR>
+    <TR><TD ALIGN="LEFT" BGCOLOR="#F6F7F4">+ noteMoyenne(idUtilisateur) : ?float <I>{static}</I><BR ALIGN="LEFT"/></TD></TR></TABLE>>];
+
+  Controller [label=<<TABLE BORDER="2" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4" COLOR="#1C2B33" BGCOLOR="#FFFFFF">
+    <TR><TD BGCOLOR="#DCE2DE"><I>«abstract»</I><BR/><B>Controller</B></TD></TR>
+    <TR><TD ALIGN="LEFT" BGCOLOR="#F6F7F4"># render(vue, data, titre)<BR ALIGN="LEFT"/># redirect(chemin)<BR ALIGN="LEFT"/># abort(code, message)<BR ALIGN="LEFT"/># input(clé) / query(clé)<BR ALIGN="LEFT"/></TD></TR></TABLE>>];
+
+  Router [label=<<TABLE BORDER="2" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4" COLOR="#1C2B33" BGCOLOR="#FFFFFF">
+    <TR><TD BGCOLOR="#DCE2DE"><B>Router</B></TD></TR>
+    <TR><TD ALIGN="LEFT">- routes : array</TD></TR>
+    <TR><TD ALIGN="LEFT" BGCOLOR="#F6F7F4">+ get(chemin, action, middlewares)<BR ALIGN="LEFT"/>+ post(chemin, action, middlewares)<BR ALIGN="LEFT"/>+ dispatch(méthode, uri)<BR ALIGN="LEFT"/></TD></TR></TABLE>>];
+
+  Auth [label=<<TABLE BORDER="2" CELLBORDER="0" CELLSPACING="0" CELLPADDING="4" COLOR="#1C2B33" BGCOLOR="#FFFFFF">
+    <TR><TD BGCOLOR="#DCE2DE"><B>Auth</B>  <I>{static}</I></TD></TR>
+    <TR><TD ALIGN="LEFT" BGCOLOR="#F6F7F4">+ login(u) / logout()<BR ALIGN="LEFT"/>+ check() : bool<BR ALIGN="LEFT"/>+ id() : ?int<BR ALIGN="LEFT"/>+ user() : ?Utilisateur<BR ALIGN="LEFT"/>+ isAdmin() : bool<BR ALIGN="LEFT"/></TD></TR></TABLE>>];
+
+  node [shape=box, style="rounded,filled", fillcolor="#FFFFFF", color="#1C2B33", fontname="Overpass", fontsize=11];
+  AuthController [label="AuthController\n(socle)"];
+  TrajetController [label="TrajetController\n(A)", color="#0E7458", penwidth=2];
+  ReservationController [label="ReservationController\nProfilController (B)", color="#0E7458", penwidth=2];
+  AvisController [label="AvisController\nAdminController (C)", color="#0E7458", penwidth=2];
+
+  { Utilisateur Trajet Reservation Avis } -> Model [arrowhead=empty, style=solid];
+  Model -> Database [arrowhead=vee, style=dashed, label="utilise"];
+  { AuthController TrajetController ReservationController AvisController } -> Controller [arrowhead=empty];
+  Router -> Controller [arrowhead=vee, style=dashed, label="instancie"];
+  Auth -> Utilisateur [arrowhead=vee, style=dashed];
+
+  // Associations métier
+  Trajet -> Utilisateur [dir=none, color="#0A5A44", penwidth=1.6, headlabel="1 conducteur", taillabel="0..*", fontcolor="#0A5A44"];
+  Reservation -> Trajet [dir=none, color="#0A5A44", penwidth=1.6, headlabel="1", taillabel="0..*", fontcolor="#0A5A44"];
+  Reservation -> Utilisateur [dir=none, color="#0A5A44", penwidth=1.6, headlabel="1 passager", taillabel="0..*", fontcolor="#0A5A44"];
+  Avis -> Trajet [dir=none, color="#0A5A44", penwidth=1.6, headlabel="1", taillabel="0..*", fontcolor="#0A5A44"];
+  Avis -> Utilisateur [dir=none, color="#0A5A44", penwidth=1.6, headlabel="auteur / cible", taillabel="0..*", fontcolor="#0A5A44"];
+}
