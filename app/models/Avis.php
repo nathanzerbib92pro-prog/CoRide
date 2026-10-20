@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -31,6 +32,14 @@ class Avis extends Model
      */
     public static function noteMoyenne(int $idUtilisateur): ?float
     {
-        return null; // TODO (C) : remplacer ce bouchon par le vrai calcul
+        $stmt = self::db()->prepare('SELECT AVG(note) FROM avis WHERE id_cible = :id');
+        $stmt->execute(['id' => $idUtilisateur]);
+        $moyenne = $stmt->fetchColumn();
+
+        if ($moyenne === null) {
+            return null;
+        }
+
+        return (float) $moyenne;
     }
 }
