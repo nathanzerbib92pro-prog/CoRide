@@ -23,7 +23,19 @@ class Avis extends Model
     // TODO (C) : hydratation + getters
     // TODO (C) : créer un avis, vérifier qu'un auteur n'a pas déjà noté cette personne sur ce trajet,
     //            lister les avis reçus, supprimer (modération)
-
+    /** Construit un objet Avis à partir d'une ligne SQL. */
+    public static function fromRow(array $row): self
+    {
+        $a = new self();
+        $a->id          = (int) $row['id'];
+        $a->note        = (int) $row['note'];
+        $a->commentaire = $row['commentaire'];
+        $a->date        = $row['date'];
+        $a->idTrajet    = (int) $row['id_trajet'];
+        $a->idAuteur    = (int) $row['id_auteur'];
+        $a->idCible     = (int) $row['id_cible'];
+        return $a;
+    }
     /**
      * Méthode statique imposée par le sujet.
      * Moyenne des notes reçues par un utilisateur, ou null s'il n'a encore aucun avis.
