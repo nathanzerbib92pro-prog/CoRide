@@ -21,8 +21,50 @@ class Avis extends Model
     private int $idCible;
 
     // TODO (C) : hydratation + getters
+
+    public static function fromRow(array $row): self
+    {
+        $a = new self();
+        $a->id          = (int) $row['id'];
+        $a->note        = (int) $row['note'];
+        $a->commentaire = $row['commentaire'];
+        $a->date        = $row['date'];
+        $a->idTrajet    = (int) $row['id_trajet'];
+        $a->idAuteur    = (int) $row['id_auteur'];
+        $a->idCible     = (int) $row['id_cible'];
+        return $a;
+    }
     // TODO (C) : créer un avis, vérifier qu'un auteur n'a pas déjà noté cette personne sur ce trajet,
     //            lister les avis reçus, supprimer (modération)
+    /** Construit un objet Avis à partir d'une ligne SQL. */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+    public function getNote(): int
+    {
+        return $this->note;
+    }
+    public function getCommentaire(): ?string
+    {
+        return $this->commentaire;
+    }
+    public function getDate(): string
+    {
+        return $this->date;
+    }
+    public function getIdTrajet(): int
+    {
+        return $this->idTrajet;
+    }
+    public function getIdAuteur(): int
+    {
+        return $this->idAuteur;
+    }
+    public function getIdCible(): int
+    {
+        return $this->idCible;
+    }
 
     /**
      * Méthode statique imposée par le sujet.
@@ -41,5 +83,33 @@ class Avis extends Model
         }
 
         return (float) $moyenne;
+    }
+
+    /** Enregistre un nouvel avis et renvoie son id. */
+    public static function creer(int $idTrajet, int $idAuteur, int $idCible, int $note, ?string $commentaire): int
+    {
+        $stmt = self::db()->prepare(
+            'INSERT INTO avis (note, commentaire, id_trajet, id_auteur, id_cible)
+             VALUES (:note, :commentaire, :trajet, :auteur, :cible)'
+        );
+        $stmt->execute([
+            'note'        => $note,
+            'commentaire' => $commentaire,
+            'trajet'      => $idTrajet,
+            'auteur'      => $idAuteur,
+            'cible'       => $idCible,
+        ]);
+        return (int) self::db()->lastInsertId();
+    }
+
+    /** Cet auteur a-t-il déjà noté cette personne sur ce trajet ? */
+    public static function dejaNote(int $idTrajet, int $idAuteur, int $idCible): bool
+    {
+        $stmt = self::db()->prepare(
+            'SELECT 1 FROM avis
+             WHERE id_trajet = :trajet AND id_auteur = :auteur AND id_cible = :cible'
+        );
+        $stmt->execute(['trajet' => $idTrajet, 'auteur' => $idAuteur, 'cible' => $idCible]);
+        return (bool) $stmt->fetchColumn();
     }
 }
