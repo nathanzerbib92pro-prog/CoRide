@@ -84,4 +84,21 @@ class Avis extends Model
 
         return (float) $moyenne;
     }
+
+    /** Enregistre un nouvel avis et renvoie son id. */
+    public static function creer(int $idTrajet, int $idAuteur, int $idCible, int $note, ?string $commentaire): int
+    {
+        $stmt = self::db()->prepare(
+            'INSERT INTO avis (note, commentaire, id_trajet, id_auteur, id_cible)
+             VALUES (:note, :commentaire, :trajet, :auteur, :cible)'
+        );
+        $stmt->execute([
+            'note'        => $note,
+            'commentaire' => $commentaire,
+            'trajet'      => $idTrajet,
+            'auteur'      => $idAuteur,
+            'cible'       => $idCible,
+        ]);
+        return (int) self::db()->lastInsertId();
+    }
 }
