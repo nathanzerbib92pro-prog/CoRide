@@ -21,9 +21,7 @@ class Avis extends Model
     private int $idCible;
 
     // TODO (C) : hydratation + getters
-    // TODO (C) : créer un avis, vérifier qu'un auteur n'a pas déjà noté cette personne sur ce trajet,
-    //            lister les avis reçus, supprimer (modération)
-    /** Construit un objet Avis à partir d'une ligne SQL. */
+
     public static function fromRow(array $row): self
     {
         $a = new self();
@@ -36,6 +34,38 @@ class Avis extends Model
         $a->idCible     = (int) $row['id_cible'];
         return $a;
     }
+    // TODO (C) : créer un avis, vérifier qu'un auteur n'a pas déjà noté cette personne sur ce trajet,
+    //            lister les avis reçus, supprimer (modération)
+    /** Construit un objet Avis à partir d'une ligne SQL. */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+    public function getNote(): int
+    {
+        return $this->note;
+    }
+    public function getCommentaire(): ?string
+    {
+        return $this->commentaire;
+    }
+    public function getDate(): string
+    {
+        return $this->date;
+    }
+    public function getIdTrajet(): int
+    {
+        return $this->idTrajet;
+    }
+    public function getIdAuteur(): int
+    {
+        return $this->idAuteur;
+    }
+    public function getIdCible(): int
+    {
+        return $this->idCible;
+    }
+
     /**
      * Méthode statique imposée par le sujet.
      * Moyenne des notes reçues par un utilisateur, ou null s'il n'a encore aucun avis.
