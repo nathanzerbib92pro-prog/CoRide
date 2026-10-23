@@ -9,4 +9,5 @@ $router->get('/admin', [AdminController::class, 'dashboard'], ['auth', 'admin'])
 $router->get('/admin/avis', [AdminController::class, 'avis'], ['auth', 'admin']);
 $router->post('/admin/avis/{id}/supprimer', [AdminController::class, 'supprimerAvis'], ['auth', 'admin']);
 $router->get('/admin/utilisateurs', [AdminController::class, 'utilisateurs'], ['auth', 'admin']);
-// TODO (C) : ajouter ici les routes d'action sur les comptes
+$router->post('/admin/utilisateurs/{id}/desactiver', [AdminController::class, 'desactiver'], ['auth', 'admin']);
+$router->post('/admin/utilisateurs/{id}/activer', [AdminController::class, 'activer'], ['auth', 'admin']);

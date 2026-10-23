@@ -20,8 +20,7 @@ class Avis extends Model
     private int $idAuteur;
     private int $idCible;
 
-    // TODO (C) : hydratation + getters
-
+    /** Construit un objet Avis à partir d'une ligne SQL. */
     public static function fromRow(array $row): self
     {
         $a = new self();
@@ -34,9 +33,7 @@ class Avis extends Model
         $a->idCible     = (int) $row['id_cible'];
         return $a;
     }
-    // TODO (C) : créer un avis, vérifier qu'un auteur n'a pas déjà noté cette personne sur ce trajet,
-    //            lister les avis reçus, supprimer (modération)
-    /** Construit un objet Avis à partir d'une ligne SQL. */
+
     public function getId(): int
     {
         return $this->id;
@@ -111,5 +108,66 @@ class Avis extends Model
         );
         $stmt->execute(['trajet' => $idTrajet, 'auteur' => $idAuteur, 'cible' => $idCible]);
         return (bool) $stmt->fetchColumn();
+    }
+
+    /**
+     * Personnes que $idAuteur peut noter sur ce trajet, déjà notées comprises :
+     * [['id' => …, 'nom' => …, 'role' => 'conducteur'|'passager', 'deja_note' => bool], …]
+     * Conducteur ↔ chaque passager « Confirmée » (décision d'équipe n°3).
+     * Tableau vide si l'auteur n'a pas participé au trajet.
+     */
+    public static function cibles(Trajet $trajet, int $idAuteur): array
+    {
+        $stmt = self::db()->prepare(
+            'SELECT u.id, u.nom FROM reservations r
+             JOIN utilisateurs u ON u.id = r.id_passager
+             WHERE r.id_trajet = :trajet AND r.statut = :confirmee
+             ORDER BY u.nom'
+        );
+        $stmt->execute(['trajet' => $trajet->getId(), 'confirmee' => Reservation::STATUT_CONFIRMEE]);
+        $passagers = $stmt->fetchAll();
+
+        if ($idAuteur === $trajet->getIdConducteur()) {
+            $cibles = array_map(fn(array $p) => $p + ['role' => 'passager'], $passagers);
+        } elseif (in_array($idAuteur, array_map(fn(array $p) => (int) $p['id'], $passagers), true)) {
+            $conducteur = Utilisateur::findById($trajet->getIdConducteur());
+            $cibles = [['id' => $conducteur->getId(), 'nom' => $conducteur->getNom(), 'role' => 'conducteur']];
+        } else {
+            return [];
+        }
+
+        foreach ($cibles as &$c) {
+            $c['id'] = (int) $c['id'];
+            $c['deja_note'] = self::dejaNote($trajet->getId(), $idAuteur, $c['id']);
+        }
+        return $cibles;
+    }
+
+    /** Tous les avis, du plus récent au plus ancien, avec les noms et le trajet (modération). */
+    public static function listerPourModeration(): array
+    {
+        return self::db()->query(
+            'SELECT a.id, a.note, a.commentaire, a.date,
+                    auteur.nom AS auteur, cible.nom AS cible,
+                    t.id AS id_trajet, t.origine, t.destination
+             FROM avis a
+             JOIN utilisateurs auteur ON auteur.id = a.id_auteur
+             JOIN utilisateurs cible  ON cible.id  = a.id_cible
+             JOIN trajets t           ON t.id      = a.id_trajet
+             ORDER BY a.date DESC, a.id DESC'
+        )->fetchAll();
+    }
+
+    /** Supprime un avis. Renvoie false s'il n'existait pas. */
+    public static function supprimer(int $id): bool
+    {
+        $stmt = self::db()->prepare('DELETE FROM avis WHERE id = :id');
+        $stmt->execute(['id' => $id]);
+        return $stmt->rowCount() === 1;
+    }
+
+    public static function compter(): int
+    {
+        return (int) self::db()->query('SELECT COUNT(*) FROM avis')->fetchColumn();
     }
 }
