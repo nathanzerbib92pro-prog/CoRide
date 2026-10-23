@@ -24,10 +24,47 @@ class Trajet extends Model
     private int $idConducteur;
 
     // TODO (A) : hydratation depuis une ligne SQL — inspirez-vous de Utilisateur::fromRow()
+    class Trajet
+{
+    private function __construct(
+        private int $id,
+        private string $depart,
+        private string $arrivee,
+        private string $dateDepart,
+        private float $prix,
+        private int $placesRestantes,
+    ) {}
+
+    public static function fromRow(array $row): self
+    {
+        return new self(
+            (int) $row['id'],
+            $row['depart'],
+            $row['arrivee'],
+            $row['date_depart'],
+            (float) $row['prix'],
+            (int) $row['places_restantes'], // string -> int
+        );
+    }
     // TODO (A) : getters
+        public function getId(): int { return $this->id; }
+    public function getDepart(): string { return $this->depart; }
+    public function getArrivee(): string { return $this->arrivee; }
+    public function getDateDepart(): string { return $this->dateDepart; }
+    public function getPrix(): float { return $this->prix; }
+    public function getPlacesRestantes(): int { return $this->placesRestantes; }
 
     // TODO (A) : méthodes d'accès aux données dont votre module a besoin
     //            (créer, trouver par id, lister les trajets d'un conducteur…)
+        public static function findById(PDO $pdo, int $id): ?self
+    {
+        $stmt = $pdo->prepare('SELECT * FROM trajet WHERE id = :id');
+        $stmt->execute(['id' => $id]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $row === false ? null : self::fromRow($row);
+    }
+}
 
     // TODO (B) : méthode de recherche filtrée (ville de départ, d'arrivée, date) — trajets « Ouvert » uniquement
 
