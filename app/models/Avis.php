@@ -101,4 +101,15 @@ class Avis extends Model
         ]);
         return (int) self::db()->lastInsertId();
     }
+
+    /** Cet auteur a-t-il déjà noté cette personne sur ce trajet ? */
+    public static function dejaNote(int $idTrajet, int $idAuteur, int $idCible): bool
+    {
+        $stmt = self::db()->prepare(
+            'SELECT 1 FROM avis
+             WHERE id_trajet = :trajet AND id_auteur = :auteur AND id_cible = :cible'
+        );
+        $stmt->execute(['trajet' => $idTrajet, 'auteur' => $idAuteur, 'cible' => $idCible]);
+        return (bool) $stmt->fetchColumn();
+    }
 }
