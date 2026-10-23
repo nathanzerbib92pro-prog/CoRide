@@ -41,6 +41,24 @@ class Utilisateur extends Model
         return $row ? self::fromRow($row) : null;
     }
 
+    /** Tous les comptes, par nom (gestion des comptes, module C). */
+    public static function findAll(): array
+    {
+        $rows = self::db()->query('SELECT * FROM utilisateurs ORDER BY nom')->fetchAll();
+        return array_map([self::class, 'fromRow'], $rows);
+    }
+
+    /**
+     * Active ou désactive le compte (module C). On ne supprime pas : les trajets,
+     * réservations et avis du compte y restent liés par clés étrangères.
+     */
+    public function setActif(bool $actif): void
+    {
+        $stmt = self::db()->prepare('UPDATE utilisateurs SET actif = :actif WHERE id = :id');
+        $stmt->execute(['actif' => (int) $actif, 'id' => $this->id]);
+        $this->actif = $actif;
+    }
+
     public static function findByEmail(string $email): ?self
     {
         $stmt = self::db()->prepare('SELECT * FROM utilisateurs WHERE email = :email');
