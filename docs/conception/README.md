@@ -68,5 +68,7 @@ Pour régénérer une image : `dot -Tpng -Gdpi=150 mld.dot -o mld.png`.
 
 1. **Quand décrémente-t-on `places_restantes` ?** À l'envoi de la demande (B) ou à l'acceptation par le conducteur (A) ? Le sujet dit « une place acceptée décrémente le compteur » : choisissez, notez-le, et faites en sorte que `Trajet::reserverPlace()` ne soit appelée qu'à un seul endroit.
 2. **Que deviennent les demandes « En attente » quand un trajet passe « Complet » ou « Terminé » ?**
+   → **Terminé** (proposé par C, implémenté) : elles passent à « Refusée » au moment de la clôture. Cas « Complet » : à trancher avec A et B.
 3. **Qui note qui ?** Interprétation retenue par défaut : conducteur ↔ chaque passager confirmé (pas passager ↔ passager).
+   → Retenu et implémenté par C (`Avis::cibles()`), voir `docs/module-c.md`.
 4. **« Trajets réalisés » d'un profil** : comme conducteur seulement, ou aussi comme passager confirmé ?
