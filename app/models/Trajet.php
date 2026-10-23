@@ -70,6 +70,67 @@ class Trajet extends Model
     // TODO (A) : méthodes d'accès aux données dont votre module a besoin
     //            (créer, lister les trajets d'un conducteur…)
 
+    // --- Clôture (module C) ------------------------------------------------
+
+    /** Délai après le départ au-delà duquel un trajet est clôturé automatiquement. */
+    public const DELAI_CLOTURE_AUTO = '24 HOUR';
+
+    /**
+     * Passe ce trajet à « Terminé » (clôture manuelle par le conducteur).
+     * Les demandes encore « En attente » sont refusées : le trajet a eu lieu sans elles.
+     */
+    public function terminer(): void
+    {
+        $db = self::db();
+        $db->beginTransaction();
+        $stmt = $db->prepare('UPDATE trajets SET statut = :termine WHERE id = :id');
+        $stmt->execute(['termine' => self::STATUT_TERMINE, 'id' => $this->id]);
+        $stmt = $db->prepare('UPDATE reservations SET statut = :refusee WHERE id_trajet = :id AND statut = :attente');
+        $stmt->execute([
+            'refusee' => Reservation::STATUT_REFUSEE,
+            'attente' => Reservation::STATUT_EN_ATTENTE,
+            'id'      => $this->id,
+        ]);
+        $db->commit();
+        $this->statut = self::STATUT_TERMINE;
+    }
+
+    /**
+     * Clôture automatique : tous les trajets « Ouvert » ou « Complet » partis depuis plus
+     * de DELAI_CLOTURE_AUTO passent à « Terminé ». Renvoie le nombre de trajets clôturés.
+     * Appelée par bin/cloturer-trajets.php (tâche planifiée) et à l'ouverture des pages du module C.
+     */
+    public static function cloturerTrajetsPasses(): int
+    {
+        $db = self::db();
+        $db->beginTransaction();
+        $limite = 'NOW() - INTERVAL ' . self::DELAI_CLOTURE_AUTO;
+        // Les demandes en attente d'abord, tant qu'on sait encore quels trajets sont concernés.
+        $stmt = $db->prepare(
+            "UPDATE reservations r JOIN trajets t ON t.id = r.id_trajet
+             SET r.statut = :refusee
+             WHERE r.statut = :attente AND t.statut IN (:ouvert, :complet) AND t.date_heure <= $limite"
+        );
+        $stmt->execute([
+            'refusee' => Reservation::STATUT_REFUSEE,
+            'attente' => Reservation::STATUT_EN_ATTENTE,
+            'ouvert'  => self::STATUT_OUVERT,
+            'complet' => self::STATUT_COMPLET,
+        ]);
+        $stmt = $db->prepare(
+            "UPDATE trajets SET statut = :termine
+             WHERE statut IN (:ouvert, :complet) AND date_heure <= $limite"
+        );
+        $stmt->execute([
+            'termine' => self::STATUT_TERMINE,
+            'ouvert'  => self::STATUT_OUVERT,
+            'complet' => self::STATUT_COMPLET,
+        ]);
+        $nb = $stmt->rowCount();
+        $db->commit();
+        return $nb;
+    }
+
     // TODO (B) : méthode de recherche filtrée (ville de départ, d'arrivée, date) — trajets « Ouvert » uniquement
 
     /**
