@@ -1,0 +1,115 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * Modèle Trajet : fait le lien entre une ligne SQL et un objet PHP.
+ *
+ * Utilisation par B et C :
+ *   $trajet = Trajet::findById($pdo, $id);
+ *   if ($trajet === null) { // 404 }
+ *   echo $trajet->getDepart();
+ *
+ * À ADAPTER : noms de colonnes et de connexion PDO selon le schéma et
+ * la façon dont Utilisateur.php obtient sa connexion.
+ */
+class Trajet
+{
+    private function __construct(
+        private int $id,
+        private string $depart,
+        private string $arrivee,
+        private string $dateDepart,
+        private ?float $prix,
+        private int $placesRestantes,
+    ) {
+    }
+
+    /**
+     * Hydratation : tableau SQL (PDO::FETCH_ASSOC) -> objet Trajet.
+     * PDO renvoie souvent tout en chaîne : on caste explicitement.
+     */
+    public static function fromRow(array $row): self
+    {
+        return new self(
+            (int) $row['id'],
+            $row['depart'],
+            $row['arrivee'],
+            $row['date_depart'],
+            $row['prix'] === null ? null : (float) $row['prix'], // prix facultatif
+            (int) $row['places_restantes'],                      // "3" -> 3
+        );
+    }
+
+    /**
+     * Retrouve un trajet par son id.
+     * Renvoie null s'il n'existe pas (fetch() renvoie false dans ce cas).
+     */
+    public static function findById(PDO $pdo, int $id): ?self
+    {
+        $stmt = $pdo->prepare('SELECT * FROM trajet WHERE id = :id');
+        $stmt->execute(['id' => $id]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        return $row === false ? null : self::fromRow($row);
+    }
+
+    /**
+     * Insère un trajet et renvoie son id.
+     * $data : conducteur_id, depart, arrivee, date_depart (Y-m-d H:i:s),
+     *         places, places_restantes, prix (float|null), statut.
+     */
+    public static function insert(PDO $pdo, array $data): int
+    {
+        $stmt = $pdo->prepare(
+            'INSERT INTO trajet
+                (conducteur_id, depart, arrivee, date_depart, places, places_restantes, prix, statut)
+             VALUES
+                (:conducteur_id, :depart, :arrivee, :date_depart, :places, :places_restantes, :prix, :statut)'
+        );
+        $stmt->execute([
+            'conducteur_id'    => $data['conducteur_id'],
+            'depart'           => $data['depart'],
+            'arrivee'          => $data['arrivee'],
+            'date_depart'      => $data['date_depart'],
+            'places'           => $data['places'],
+            'places_restantes' => $data['places_restantes'],
+            'prix'             => $data['prix'],
+            'statut'           => $data['statut'],
+        ]);
+
+        return (int) $pdo->lastInsertId();
+    }
+
+    // --- Getters (lecture seule pour les vues) ---
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function getDepart(): string
+    {
+        return $this->depart;
+    }
+
+    public function getArrivee(): string
+    {
+        return $this->arrivee;
+    }
+
+    public function getDateDepart(): string
+    {
+        return $this->dateDepart;
+    }
+
+    public function getPrix(): ?float
+    {
+        return $this->prix;
+    }
+
+    public function getPlacesRestantes(): int
+    {
+        return $this->placesRestantes;
+    }
+}
