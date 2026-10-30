@@ -1,0 +1,59 @@
+<?php
+/**
+ * Vue : formulaire de publication d'un trajet.
+ * Variables attendues : $errors (erreurs par champ) et $old (valeurs saisies).
+ * À adapter : action du formulaire, classes CSS, layout de ton projet.
+ */
+$e = fn (string $v): string => htmlspecialchars($v, ENT_QUOTES, 'UTF-8');
+?>
+<h1>Publier un trajet</h1>
+
+<form method="post" action="/trajets/store.php" novalidate>
+
+    <div>
+        <label for="depart">Départ</label>
+        <input id="depart" name="depart" type="text" required
+               value="<?= $e($old['depart'] ?? '') ?>">
+        <?php if (isset($errors['depart'])): ?>
+            <p class="error"><?= $e($errors['depart']) ?></p>
+        <?php endif; ?>
+    </div>
+
+    <div>
+        <label for="arrivee">Arrivée</label>
+        <input id="arrivee" name="arrivee" type="text" required
+               value="<?= $e($old['arrivee'] ?? '') ?>">
+        <?php if (isset($errors['arrivee'])): ?>
+            <p class="error"><?= $e($errors['arrivee']) ?></p>
+        <?php endif; ?>
+    </div>
+
+    <div>
+        <label for="date_depart">Date et heure de départ</label>
+        <input id="date_depart" name="date_depart" type="datetime-local" required
+               value="<?= $e($old['date_depart'] ?? '') ?>">
+        <?php if (isset($errors['date_depart'])): ?>
+            <p class="error"><?= $e($errors['date_depart']) ?></p>
+        <?php endif; ?>
+    </div>
+
+    <div>
+        <label for="places">Places disponibles (1 à 8)</label>
+        <input id="places" name="places" type="number" min="1" max="8" required
+               value="<?= $e($old['places'] ?? '') ?>">
+        <?php if (isset($errors['places'])): ?>
+            <p class="error"><?= $e($errors['places']) ?></p>
+        <?php endif; ?>
+    </div>
+
+    <div>
+        <label for="prix">Prix indicatif en € (facultatif)</label>
+        <input id="prix" name="prix" type="text" inputmode="decimal"
+               value="<?= $e($old['prix'] ?? '') ?>">
+        <?php if (isset($errors['prix'])): ?>
+            <p class="error"><?= $e($errors['prix']) ?></p>
+        <?php endif; ?>
+    </div>
+
+    <button type="submit">Publier</button>
+</form>
