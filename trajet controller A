@@ -1,0 +1,123 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * Publication d'un trajet : create() affiche le formulaire, store() le traite.
+ *
+ * À ADAPTER : Auth::id(), Flash::set(), le chemin des vues, l'URL de
+ * redirection et la valeur du statut initial selon ton projet.
+ */
+class TrajetController
+{
+    private const FORMAT_DATE = 'Y-m-d\TH:i'; // format de <input type="datetime-local">
+    private const STATUT_INITIAL = 'ouvert';  // à aligner avec ton schéma
+
+    public function __construct(private PDO $pdo)
+    {
+    }
+
+    /** GET : affiche le formulaire vide. */
+    public function create(): void
+    {
+        $this->exigerConnexion();
+
+        $errors = [];
+        $old = [];
+        require __DIR__ . '/../views/trajets/create.php';
+    }
+
+    /** POST : valide côté serveur, enregistre, redirige. */
+    public function store(): void
+    {
+        $this->exigerConnexion();
+
+        // Valeurs saisies (nettoyées) : ré-affichées en cas d'erreur
+        $old = [
+            'depart'      => trim($_POST['depart'] ?? ''),
+            'arrivee'     => trim($_POST['arrivee'] ?? ''),
+            'date_depart' => trim($_POST['date_depart'] ?? ''),
+            'places'      => trim($_POST['places'] ?? ''),
+            'prix'        => trim($_POST['prix'] ?? ''),
+        ];
+        $errors = [];
+
+        // (1) Champs obligatoires non vides
+        foreach (['depart', 'arrivee', 'date_depart', 'places'] as $champ) {
+            if ($old[$champ] === '') {
+                $errors[$champ] = 'Ce champ est obligatoire.';
+            }
+        }
+
+        // (2) Départ ≠ arrivée, sans tenir compte de la casse
+        if (!isset($errors['depart']) && !isset($errors['arrivee'])
+            && mb_strtolower($old['depart']) === mb_strtolower($old['arrivee'])) {
+            $errors['arrivee'] = "Le départ et l'arrivée doivent être différents.";
+        }
+
+        // (3) Date valide et dans le futur
+        $date = null;
+        if (!isset($errors['date_depart'])) {
+            $date = DateTime::createFromFormat(self::FORMAT_DATE, $old['date_depart']);
+            if ($date === false || $date->format(self::FORMAT_DATE) !== $old['date_depart']) {
+                $errors['date_depart'] = 'Date invalide.';
+            } elseif ($date <= new DateTime()) {
+                $errors['date_depart'] = 'La date doit être dans le futur.';
+            }
+        }
+
+        // (4) Places : entier entre 1 et 8
+        $places = null;
+        if (!isset($errors['places'])) {
+            $places = filter_var($old['places'], FILTER_VALIDATE_INT, [
+                'options' => ['min_range' => 1, 'max_range' => 8],
+            ]);
+            if ($places === false) {
+                $errors['places'] = 'Le nombre de places doit être un entier entre 1 et 8.';
+            }
+        }
+
+        // (5) Prix : vide (null) ou nombre >= 0 (virgule française acceptée)
+        $prix = null;
+        if ($old['prix'] !== '') {
+            $normalise = str_replace(',', '.', $old['prix']);
+            if (!is_numeric($normalise) || (float) $normalise < 0) {
+                $errors['prix'] = 'Le prix doit être un nombre positif ou nul.';
+            } else {
+                $prix = (float) $normalise;
+            }
+        }
+
+        // Erreurs : on ré-affiche le formulaire (pas de redirection)
+        if ($errors !== []) {
+            require __DIR__ . '/../views/trajets/create.php';
+            return;
+        }
+
+        // Enregistrement
+        $id = Trajet::insert($this->pdo, [
+            'conducteur_id'    => Auth::id(), // jamais un champ du formulaire
+            'depart'           => $old['depart'],
+            'arrivee'          => $old['arrivee'],
+            'date_depart'      => $date->format('Y-m-d H:i:s'),
+            'places'           => $places,
+            'places_restantes' => $places, // aucune réservation au départ
+            'prix'             => $prix,
+            'statut'           => self::STATUT_INITIAL,
+        ]);
+
+        // POST -> Redirect -> GET
+        Flash::set('success', 'Trajet publié !');
+        header('Location: /trajets/show.php?id=' . $id);
+        exit;
+    }
+
+    /** Seul un utilisateur connecté peut publier. */
+    private function exigerConnexion(): void
+    {
+        if (Auth::id() === null) {
+            header('Location: /auth/login.php');
+            exit;
+        }
+    }
+}
